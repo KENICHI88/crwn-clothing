@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import {connect} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import Homepage from './pages/homepage/Homepage.component';
 import ShopPage from './pages/shop/Shop.component';
 import SignInSignUpPage from './pages/signInSignUp/SignInSignUp.component';
@@ -37,21 +37,24 @@ class App extends React.Component {
   }
   
   render() {
+    console.log(this.props.currentUser);
     return (
       <div >
         <Header />
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/shop" component={ShopPage} />
-          <Route path="/signin" component={SignInSignUpPage} />
+          <Route path="/signin" render={() => {
+            return this.props.currentUser ? (<Redirect to="/" />) : (<SignInSignUpPage/>)
+          }} />
         </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  user : state.user
+const mapStateToProps = ({user}) => ({
+  currentUser : user.currentUser
 })
 
 const mapDispatchToProps = (dispatch) => ({
