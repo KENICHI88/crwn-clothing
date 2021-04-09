@@ -9,7 +9,7 @@ function PreViewCollection({title, items}) {
       <h1>{title.toUpperCase()}</h1>
       <div className="preview">
         {items.filter((item, ind) => ind < 4).map(item => (
-          <CollectionItem key={item.id} {...item}></CollectionItem>))}
+          <CollectionItem key={item.id} item={item}></CollectionItem>))}
       </div>
     </div>
   )
